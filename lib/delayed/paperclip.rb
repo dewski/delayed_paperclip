@@ -43,8 +43,8 @@ module Delayed
 
           self.send("#{name}_processing=", true)
         end
-
-        self.send("before_#{name}_post_process", :"halt_processing_for_#{name}")
+        
+        set_callback :"#{name}_post_process", :before, :"halt_processing_for_#{name}"
 
         before_save :"#{name}_processing!"
         after_save  :"enqueue_job_for_#{name}"
