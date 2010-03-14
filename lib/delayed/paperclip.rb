@@ -13,6 +13,7 @@ module Delayed
         end
 
         define_method "halt_processing_for_#{name}" do
+          puts "DID I GET HALLLTED?"
           return unless self.send("#{name}_changed?")
 
           false # halts processing
