@@ -33,7 +33,7 @@ module Delayed
           return unless self.send(:"#{name}_processing?")
 
           self.send("#{name}_processing=", false)
-          self.save(false)
+          self.save(:validate => false)
         end
 
         define_method "#{name}_processing!" do
