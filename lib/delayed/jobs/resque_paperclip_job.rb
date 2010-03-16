@@ -2,7 +2,7 @@ class ResquePaperclipJob
   @queue = :paperclip
 
   def self.perform(instance_klass, instance_id, attachment_name)
-    instance = instance_klass.constantize.where(:asset_processing => true).find(instance_id)
+    instance = instance_klass.constantize.process_asset(instance_id)
 
     process_job(instance, attachment_name) do
       instance.send(attachment_name).reprocess!
