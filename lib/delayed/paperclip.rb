@@ -12,9 +12,8 @@ module Delayed
           attachment_has_changed?(name)
         end
 
-        define_method "halt_processing_for_#{name}" do
+        set_callback :"#{name}_post_process", :before do
           return unless self.send("#{name}_changed?")
-
           false # halts processing
         end
 
@@ -44,8 +43,6 @@ module Delayed
           self.send("#{name}_processing=", true)
         end
         
-        set_callback :"#{name}_post_process", :before, :"halt_processing_for_#{name}"
-
         before_save :"#{name}_processing!"
         after_save  :"enqueue_job_for_#{name}"
       end
